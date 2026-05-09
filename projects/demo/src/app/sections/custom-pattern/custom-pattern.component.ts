@@ -39,8 +39,9 @@ interface PulseStep {
 
             <!-- Delay -->
             <div class="flex flex-col gap-1">
-              <label class="text-xs text-zinc-500">Delay (ms)</label>
+              <label for="delay-{{i}}" class="text-xs text-zinc-500">Delay (ms)</label>
               <input
+                id="delay-{{i}}"
                 type="number"
                 [value]="step.delay"
                 (input)="updateStep(i, 'delay', toNum($event))"
@@ -51,8 +52,9 @@ interface PulseStep {
 
             <!-- Duration -->
             <div class="flex flex-col gap-1">
-              <label class="text-xs text-zinc-500">Duration (ms)</label>
+              <label for="duration-{{i}}" class="text-xs text-zinc-500">Duration (ms)</label>
               <input
+                id="duration-{{i}}"
                 type="number"
                 [value]="step.duration"
                 (input)="updateStep(i, 'duration', toNum($event))"
@@ -63,10 +65,11 @@ interface PulseStep {
 
             <!-- Intensity -->
             <div class="flex flex-col gap-1 flex-1 min-w-[140px]">
-              <label class="text-xs text-zinc-500">
+              <label for="intensity-{{i}}" class="text-xs text-zinc-500">
                 Intensity — <span class="text-zinc-300">{{ (step.intensity * 100).toFixed(0) }}%</span>
               </label>
               <input
+                id="intensity-{{i}}"
                 type="range"
                 [value]="step.intensity"
                 (input)="updateStep(i, 'intensity', toNum($event))"

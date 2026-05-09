@@ -3,12 +3,12 @@
 [![npm version](https://img.shields.io/npm/v/ng-haptics.svg?style=flat-square)](https://www.npmjs.com/package/ng-haptics)
 [![CI](https://github.com/Xaconi/ng-haptics/actions/workflows/ci.yml/badge.svg)](https://github.com/Xaconi/ng-haptics/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-violet.svg?style=flat-square)](LICENSE)
-[![Angular](https://img.shields.io/badge/Angular-19+-DD0031?style=flat-square&logo=angular)](https://angular.dev)
+[![Angular](https://img.shields.io/badge/Angular-20+-DD0031?style=flat-square&logo=angular)](https://angular.dev)
 [![Bundle size](https://img.shields.io/bundlephobia/minzip/ng-haptics?style=flat-square)](https://bundlephobia.com/package/ng-haptics)
 
 > The modern, Angular-native way to add haptic feedback to web applications.
 
-**[Live Demo →](https://nicog.github.io/ng-haptics)**
+**[Live Demo →](https://xaconi.github.io/ng-haptics/)**
 
 ## Features
 
@@ -159,14 +159,6 @@ npm run build
 # Lint
 npm run lint
 ```
-
-## Roadmap
-
-- [ ] `haptics.sequence()` builder API
-- [ ] Angular CDK integration (focus, drag)
-- [ ] Haptic patterns library
-- [ ] Storybook examples
-- [ ] `ngHapticLongPress` directive
 
 ## Contributing
 

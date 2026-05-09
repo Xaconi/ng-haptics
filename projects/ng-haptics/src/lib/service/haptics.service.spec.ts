@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { describe, it, expect, vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { HapticsService } from './haptics.service';
@@ -48,8 +50,8 @@ describe('HapticsService', () => {
 
   it('delegates pattern() to adapter', () => {
     const { service, spies } = setup();
-    service.pattern([10, 50]);
-    expect(spies.pattern).toHaveBeenCalledWith([10, 50]);
+    service.pattern([{ duration: 10 }, { duration: 20, delay: 30 }]);
+    expect(spies.pattern).toHaveBeenCalledWith([{ duration: 10 }, { duration: 20, delay: 30 }]);
   });
 
   it('sequence() calls presets and respects delays', async () => {
@@ -60,7 +62,7 @@ describe('HapticsService', () => {
   });
 
   it('logs to console when debug is true', () => {
-    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => { });
     TestBed.configureTestingModule({
       providers: [
         HapticsService,

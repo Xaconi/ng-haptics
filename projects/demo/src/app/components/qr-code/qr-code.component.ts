@@ -27,8 +27,15 @@ export class QrCodeComponent implements OnInit {
     const targetUrl = this.url() || window.location.href;
 
     try {
-      const QRCode = await import('qrcode');
-      await QRCode.toCanvas(this.canvasRef.nativeElement, targetUrl, {
+      const qrcodeModule = await import('qrcode');
+      const qrcode = qrcodeModule.default ?? qrcodeModule;
+      const toCanvas = qrcode.toCanvas ?? qrcodeModule.toCanvas;
+
+      if (typeof toCanvas !== 'function') {
+        throw new Error('qrcode.toCanvas is not available');
+      }
+
+      await toCanvas(this.canvasRef.nativeElement, targetUrl, {
         width: this.size(),
         margin: 2,
         color: {

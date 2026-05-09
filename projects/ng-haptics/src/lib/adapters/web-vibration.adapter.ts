@@ -2,11 +2,6 @@ import { HapticPulse } from '../types/haptics.types';
 import { HapticsAdapter } from './haptics-adapter';
 import { HAPTIC_PRESETS } from './haptic-presets';
 
-/**
- * Converts HapticPulse[] to the number[] format expected by navigator.vibrate().
- * Intensity scales the duration: 50% intensity = half the duration.
- * A minimum 1ms gap between consecutive pulses avoids browser merging issues.
- */
 function pulsesToVibratePattern(pulses: HapticPulse[]): number[] {
   if (pulses.length === 0) return [];
 
@@ -17,9 +12,9 @@ function pulsesToVibratePattern(pulses: HapticPulse[]): number[] {
     const effectiveDuration = Math.max(1, Math.round(duration * Math.min(1, Math.max(0, intensity))));
 
     if (i === 0) {
-      if (delay > 0) result.push(0, delay); // leading silence before first pulse
+      if (delay > 0) result.push(0, delay);
     } else {
-      result.push(delay > 0 ? delay : 1); // min 1ms gap prevents browser from merging pulses
+      result.push(delay > 0 ? delay : 1);
     }
     result.push(effectiveDuration);
   }
@@ -32,13 +27,13 @@ export class WebVibrationAdapter implements HapticsAdapter {
     return typeof navigator !== 'undefined' && 'vibrate' in navigator;
   }
 
-  light(): void      { this.executePulses(HAPTIC_PRESETS.light); }
-  medium(): void     { this.executePulses(HAPTIC_PRESETS.medium); }
-  heavy(): void      { this.executePulses(HAPTIC_PRESETS.heavy); }
-  success(): void    { this.executePulses(HAPTIC_PRESETS.success); }
-  warning(): void    { this.executePulses(HAPTIC_PRESETS.warning); }
-  error(): void      { this.executePulses(HAPTIC_PRESETS.error); }
-  selection(): void  { this.executePulses(HAPTIC_PRESETS.selection); }
+  light(): void { this.executePulses(HAPTIC_PRESETS.light); }
+  medium(): void { this.executePulses(HAPTIC_PRESETS.medium); }
+  heavy(): void { this.executePulses(HAPTIC_PRESETS.heavy); }
+  success(): void { this.executePulses(HAPTIC_PRESETS.success); }
+  warning(): void { this.executePulses(HAPTIC_PRESETS.warning); }
+  error(): void { this.executePulses(HAPTIC_PRESETS.error); }
+  selection(): void { this.executePulses(HAPTIC_PRESETS.selection); }
 
   pattern(pulses: HapticPulse[]): void {
     this.executePulses(pulses);
