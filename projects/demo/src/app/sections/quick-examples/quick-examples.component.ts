@@ -1,4 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import {
+  Component, inject
+} from '@angular/core';
 import { HapticsService, HapticPreset } from 'ng-haptics';
 import { SectionHeaderComponent } from '../../components/section-header/section-header.component';
 

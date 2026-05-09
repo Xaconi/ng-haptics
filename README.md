@@ -8,7 +8,7 @@
 
 > The modern, Angular-native way to add haptic feedback to web applications.
 
-**[Live Demo →](https://nicog.github.io/ng-haptics)**
+**[Live Demo →](https://xaconi.github.io/ng-haptics/)**
 
 ## Features
 
@@ -159,14 +159,6 @@ npm run build
 # Lint
 npm run lint
 ```
-
-## Roadmap
-
-- [ ] `haptics.sequence()` builder API
-- [ ] Angular CDK integration (focus, drag)
-- [ ] Haptic patterns library
-- [ ] Storybook examples
-- [ ] `ngHapticLongPress` directive
 
 ## Contributing
 

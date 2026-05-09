@@ -4,20 +4,6 @@ import { HAPTIC_PRESETS } from './haptic-presets';
 
 const INTENSITY_THRESHOLD = 0.2;
 
-/**
- * iOS haptic feedback via the WebKit `<input type="checkbox" switch>` trick.
- *
- * Clicking a <label> wrapping a switch-styled checkbox fires the Taptic Engine
- * on iOS Safari/Chrome. Keys to make it work:
- *  - input.style.all = 'initial' (reset all styles)
- *  - input.style.appearance = 'auto' (native switch rendering)
- *  - click the <label>, not the input directly
- *  - element must be in the DOM (display:none is fine)
- *
- * Intensity maps to a threshold: pulses with intensity < 0.2 are skipped.
- * Delay maps to a pause before firing the click, scheduled via rAF to stay
- * within the user-gesture context.
- */
 export class IosSwitchAdapter implements HapticsAdapter {
   private label: HTMLLabelElement | null = null;
   private static idCounter = 0;
@@ -30,13 +16,13 @@ export class IosSwitchAdapter implements HapticsAdapter {
     );
   }
 
-  light(): void      { this.executePulses(HAPTIC_PRESETS.light); }
-  medium(): void     { this.executePulses(HAPTIC_PRESETS.medium); }
-  heavy(): void      { this.executePulses(HAPTIC_PRESETS.heavy); }
-  success(): void    { this.executePulses(HAPTIC_PRESETS.success); }
-  warning(): void    { this.executePulses(HAPTIC_PRESETS.warning); }
-  error(): void      { this.executePulses(HAPTIC_PRESETS.error); }
-  selection(): void  { this.executePulses(HAPTIC_PRESETS.selection); }
+  light(): void { this.executePulses(HAPTIC_PRESETS.light); }
+  medium(): void { this.executePulses(HAPTIC_PRESETS.medium); }
+  heavy(): void { this.executePulses(HAPTIC_PRESETS.heavy); }
+  success(): void { this.executePulses(HAPTIC_PRESETS.success); }
+  warning(): void { this.executePulses(HAPTIC_PRESETS.warning); }
+  error(): void { this.executePulses(HAPTIC_PRESETS.error); }
+  selection(): void { this.executePulses(HAPTIC_PRESETS.selection); }
 
   pattern(pulses: HapticPulse[]): void {
     this.executePulses(pulses);
@@ -67,7 +53,6 @@ export class IosSwitchAdapter implements HapticsAdapter {
   private executePulses(pulses: HapticPulse[]): void {
     const label = this.getLabel();
 
-    // Convert pulses to absolute click timestamps; skip low-intensity pulses
     let t = 0;
     const clickTimes: number[] = [];
     for (const pulse of pulses) {

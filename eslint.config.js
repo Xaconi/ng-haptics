@@ -5,6 +5,9 @@ const angular = require('angular-eslint');
 
 module.exports = tseslint.config(
   {
+    ignores: ['node_modules/**', 'dist/**', '.angular/**', 'projects/ng-haptics/dist/**'],
+  },
+  {
     files: ['**/*.ts'],
     extends: [
       eslint.configs.recommended,

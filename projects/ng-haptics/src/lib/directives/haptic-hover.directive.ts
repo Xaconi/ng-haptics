@@ -2,10 +2,6 @@ import { Directive, HostListener, inject, input } from '@angular/core';
 import { HapticPreset } from '../types/haptics.types';
 import { HapticsService } from '../service/haptics.service';
 
-/**
- * Experimental: triggers haptic feedback on hover (pointerenter).
- * A 500ms throttle prevents spamming vibration during continuous movement.
- */
 @Directive({
   selector: '[ngHapticHover]',
   standalone: true,

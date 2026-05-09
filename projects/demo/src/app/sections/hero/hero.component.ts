@@ -1,4 +1,4 @@
-import { Component, inject, PLATFORM_ID, OnInit, signal } from '@angular/core';
+import { Component, inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { QrCodeComponent } from '../../components/qr-code/qr-code.component';
 import { HapticsService } from 'ng-haptics';
