@@ -20,12 +20,10 @@ interface HapticButton {
         description="Tap any button to feel the haptic feedback on your mobile device."
       />
 
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
         @for (btn of buttons; track btn.preset) {
           <button
             class="haptic-btn glass rounded-xl p-4 flex flex-col items-start gap-2 transition-all hover:border-white/20 active:scale-95 text-left"
-            [class.ring-1]="lastFired() === btn.preset"
-            [class.ring-violet-500]="lastFired() === btn.preset"
             (click)="fire(btn.preset)"
           >
             <span class="text-xl">{{ btn.description }}</span>
@@ -34,18 +32,11 @@ interface HapticButton {
           </button>
         }
       </div>
-
-      @if (lastFired()) {
-        <p class="mt-4 text-center text-sm text-zinc-500">
-          Last fired: <code class="text-violet-400">{{ lastFired() }}()</code>
-        </p>
-      }
     </section>
   `,
 })
 export class QuickExamplesComponent {
   private readonly haptics = inject(HapticsService);
-  readonly lastFired = signal<HapticPreset | ''>('');
 
   readonly buttons: HapticButton[] = [
     { preset: 'light', label: 'Light', description: '🫧', color: 'zinc' },
@@ -59,7 +50,5 @@ export class QuickExamplesComponent {
 
   fire(preset: HapticPreset): void {
     this.haptics[preset]();
-    this.lastFired.set(preset);
-    setTimeout(() => this.lastFired.set(''), 1500);
   }
 }

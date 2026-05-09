@@ -7,16 +7,16 @@ import { CodeBlockComponent } from '../../components/code-block/code-block.compo
   standalone: true,
   imports: [SectionHeaderComponent, CodeBlockComponent],
   template: `
-    <section id="usage">
+    <section id="usage" class="mb-6">
       <app-section-header
         title="Basic Usage"
         description="Inject HapticsService and call haptic presets anywhere in your app."
       />
 
       <div class="space-y-4">
-        <app-code-block label="component.ts" [code]="serviceUsage" />
-        <app-code-block label="template.html — declarative directives" [code]="directiveUsage" />
-        <app-code-block label="sequence API" [code]="sequenceUsage" />
+        <app-code-block label="component.ts" [code]="serviceUsage" class="mb-6 w-full flex flex-col" />
+        <app-code-block label="template.html — declarative directives" [code]="directiveUsage" class="mb-6 w-full flex flex-col" />
+        <app-code-block label="sequence API" [code]="sequenceUsage" class="mb-6 w-full flex flex-col" />
       </div>
     </section>
   `,

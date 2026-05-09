@@ -39,10 +39,10 @@ import { CustomPatternComponent } from './sections/custom-pattern/custom-pattern
       <footer class="border-t border-zinc-800 mt-24 py-12 text-center text-zinc-500 text-sm">
         <p>
           <span class="text-zinc-400 font-medium">ng-haptics</span> — MIT License —
-          Built with Angular 19
+          Built with ❤️ by <a href="https://github.com/Xaconi" target="_blank" class="text-violet-400 hover:underline">Xaconi</a>
         </p>
       </footer>
     </div>
   `,
 })
-export class AppComponent {}
+export class AppComponent { }

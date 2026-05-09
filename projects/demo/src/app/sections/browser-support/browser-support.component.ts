@@ -13,7 +13,7 @@ interface BrowserRow {
   standalone: true,
   imports: [SectionHeaderComponent],
   template: `
-    <section id="browser-support">
+    <section id="browser-support" class="mb-6">
       <app-section-header
         title="Browser Support"
         description="ng-haptics uses the Web Vibration API. Unsupported environments silently fall back to a no-op."

@@ -7,7 +7,7 @@ import { NgHapticDirective, NgHapticTapDirective, NgHapticHoverDirective } from 
   standalone: true,
   imports: [SectionHeaderComponent, NgHapticDirective, NgHapticTapDirective, NgHapticHoverDirective],
   template: `
-    <section id="directives">
+    <section id="directives" class="mb-6">
       <app-section-header
         title="Directives"
         description="Drop-in directives for declarative haptic feedback — no service injection needed."

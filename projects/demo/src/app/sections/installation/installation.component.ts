@@ -7,14 +7,14 @@ import { CodeBlockComponent } from '../../components/code-block/code-block.compo
   standalone: true,
   imports: [SectionHeaderComponent, CodeBlockComponent],
   template: `
-    <section id="installation">
+    <section id="installation" class="mb-6">
       <app-section-header
         title="Installation"
         description="Add ng-haptics to your Angular project in seconds."
       />
 
       <div class="space-y-4">
-        <app-code-block label="npm" [code]="npmInstall" />
+        <app-code-block label="npm" [code]="npmInstall" class="mb-6 w-full flex flex-col" />
         <app-code-block label="app.config.ts" [code]="providerCode" />
       </div>
     </section>

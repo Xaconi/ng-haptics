@@ -14,7 +14,7 @@ interface PulseStep {
   standalone: true,
   imports: [SectionHeaderComponent],
   template: `
-    <section id="custom-pattern">
+    <section id="custom-pattern" class="mb-6">
       <app-section-header
         title="Custom Pattern Builder"
         description="Design your own haptic pattern and fire it live on your phone."
@@ -128,7 +128,7 @@ export class CustomPatternComponent {
   // Default: a 3-step "success" style pattern so the user can immediately feel
   // something non-trivial when they first open the section.
   readonly steps = signal<PulseStep[]>([
-    { duration: 10, intensity: 1.0, delay: 0  },
+    { duration: 10, intensity: 1.0, delay: 0 },
     { duration: 15, intensity: 1.0, delay: 50 },
     { duration: 25, intensity: 1.0, delay: 30 },
   ]);

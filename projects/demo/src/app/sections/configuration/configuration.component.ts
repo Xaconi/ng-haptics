@@ -7,16 +7,16 @@ import { CodeBlockComponent } from '../../components/code-block/code-block.compo
   standalone: true,
   imports: [SectionHeaderComponent, CodeBlockComponent],
   template: `
-    <section id="configuration">
+    <section id="configuration" class="mb-6">
       <app-section-header
         title="Configuration"
         description="Customize ng-haptics behavior globally via provideHaptics()."
       />
 
       <div class="space-y-4">
-        <app-code-block label="HapticsConfig interface" [code]="configInterface" />
-        <app-code-block label="provideHaptics() options" [code]="configUsage" />
-        <app-code-block label="SSR safety" [code]="ssrNote" />
+        <app-code-block label="HapticsConfig interface" [code]="configInterface" class="mb-6 w-full flex flex-col" />
+        <app-code-block label="provideHaptics() options" [code]="configUsage" class="mb-6 w-full flex flex-col" />
+        <app-code-block label="SSR safety" [code]="ssrNote" class="mb-6 w-full flex flex-col" />
       </div>
     </section>
   `,

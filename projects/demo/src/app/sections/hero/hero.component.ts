@@ -30,7 +30,7 @@ import { HapticsService } from 'ng-haptics';
 
             <p class="text-lg text-zinc-400 mb-8 max-w-lg mx-auto lg:mx-0">
               The modern, Angular-native way to add haptic feedback to web applications.
-              Declarative, SSR-safe, and zero dependencies.
+              Declarative, SSR-safe, and zero dependencies. Heavily inspired by Lochie's amazing <a href="https://haptics.lochie.me/" target="_blank" class="text-violet-400 hover:underline">web-haptics</a>.
             </p>
 
             <!-- CTA buttons -->
@@ -62,14 +62,6 @@ import { HapticsService } from 'ng-haptics';
                 Try it now
               </button>
             </div>
-
-            <!-- Haptic feedback indicator -->
-            @if (feedbackMessage()) {
-              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-xs animate-fade-in">
-                <span>✓</span>
-                {{ feedbackMessage() }}
-              </div>
-            }
           </div>
 
           <!-- Right: QR code -->
@@ -86,24 +78,13 @@ export class HeroComponent implements OnInit {
   readonly haptics = inject(HapticsService);
   private readonly platformId = inject(PLATFORM_ID);
 
-  readonly feedbackMessage = signal('');
-  private feedbackTimer: ReturnType<typeof setTimeout> | null = null;
-
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      // Welcome haptic on first visit
       setTimeout(() => this.haptics.light(), 800);
     }
   }
 
   tryHaptics(): void {
     this.haptics.success();
-    this.showFeedback('Haptic fired! Check your phone.');
-  }
-
-  private showFeedback(msg: string): void {
-    this.feedbackMessage.set(msg);
-    if (this.feedbackTimer) clearTimeout(this.feedbackTimer);
-    this.feedbackTimer = setTimeout(() => this.feedbackMessage.set(''), 2500);
   }
 }
