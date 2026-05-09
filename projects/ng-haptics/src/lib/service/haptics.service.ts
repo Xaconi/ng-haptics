@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HAPTICS_ADAPTER, HAPTICS_CONFIG } from '../tokens/haptics.tokens';
-import { HapticPreset, HapticsConfig, SequenceEntry } from '../types/haptics.types';
+import { HapticPreset, HapticPulse, HapticsConfig, SequenceEntry } from '../types/haptics.types';
 
 @Injectable()
 export class HapticsService {
@@ -39,11 +39,11 @@ export class HapticsService {
     this.trigger('selection');
   }
 
-  pattern(pattern: number[]): void {
+  pattern(pulses: HapticPulse[]): void {
     if (this.config.debug) {
-      console.log('[ng-haptics] pattern:', pattern);
+      console.log('[ng-haptics] pattern:', pulses);
     }
-    this.adapter.pattern(pattern);
+    this.adapter.pattern(pulses);
   }
 
   async sequence(entries: SequenceEntry[]): Promise<void> {

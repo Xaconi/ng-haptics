@@ -1,4 +1,4 @@
-import { Directive, HostListener, Input, inject } from '@angular/core';
+import { Directive, HostListener, inject, input } from '@angular/core';
 import { HapticPreset } from '../types/haptics.types';
 import { HapticsService } from '../service/haptics.service';
 
@@ -11,7 +11,7 @@ import { HapticsService } from '../service/haptics.service';
   standalone: true,
 })
 export class NgHapticHoverDirective {
-  @Input() ngHapticHover: HapticPreset = 'light';
+  readonly ngHapticHover = input<HapticPreset>('light');
 
   private readonly haptics = inject(HapticsService);
   private lastFired = 0;
@@ -21,6 +21,6 @@ export class NgHapticHoverDirective {
     const now = Date.now();
     if (now - this.lastFired < 500) return;
     this.lastFired = now;
-    this.haptics[this.ngHapticHover]();
+    this.haptics[this.ngHapticHover()]();
   }
 }

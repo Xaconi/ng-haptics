@@ -1,3 +1,5 @@
+import { HapticPulse } from '../types/haptics.types';
+
 export interface HapticsAdapter {
   isSupported(): boolean;
   light(): void;
@@ -7,5 +9,5 @@ export interface HapticsAdapter {
   warning(): void;
   error(): void;
   selection(): void;
-  pattern(pattern: number[]): void;
+  pattern(pulses: HapticPulse[]): void;
 }

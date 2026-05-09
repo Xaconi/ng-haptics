@@ -7,3 +7,9 @@ export interface HapticsConfig {
 }
 
 export type SequenceEntry = HapticPreset | { delay: number };
+
+export interface HapticPulse {
+  duration: number;
+  intensity?: number; // 0–1, default 1.0
+  delay?: number;     // ms pause BEFORE this pulse
+}

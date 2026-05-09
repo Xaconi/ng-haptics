@@ -1,7 +1,7 @@
 export { HapticsService } from './lib/service/haptics.service';
 export { provideHaptics } from './lib/providers/provide-haptics';
 
-export type { HapticsConfig, HapticPreset, SequenceEntry } from './lib/types/haptics.types';
+export type { HapticsConfig, HapticPreset, HapticPulse, SequenceEntry } from './lib/types/haptics.types';
 
 export { NgHapticDirective } from './lib/directives/haptic.directive';
 export { NgHapticTapDirective } from './lib/directives/haptic-tap.directive';

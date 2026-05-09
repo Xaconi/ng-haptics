@@ -1,4 +1,8 @@
+import { HapticPulse } from '../types/haptics.types';
 import { HapticsAdapter } from './haptics-adapter';
+import { HAPTIC_PRESETS } from './haptic-presets';
+
+const INTENSITY_THRESHOLD = 0.2;
 
 /**
  * iOS haptic feedback via the WebKit `<input type="checkbox" switch>` trick.
@@ -10,7 +14,8 @@ import { HapticsAdapter } from './haptics-adapter';
  *  - click the <label>, not the input directly
  *  - element must be in the DOM (display:none is fine)
  *
- * Uses requestAnimationFrame to schedule multi-pulse patterns while staying
+ * Intensity maps to a threshold: pulses with intensity < 0.2 are skipped.
+ * Delay maps to a pause before firing the click, scheduled via rAF to stay
  * within the user-gesture context.
  */
 export class IosSwitchAdapter implements HapticsAdapter {
@@ -25,36 +30,16 @@ export class IosSwitchAdapter implements HapticsAdapter {
     );
   }
 
-  light(): void {
-    this.pulse([]);
-  }
+  light(): void      { this.executePulses(HAPTIC_PRESETS.light); }
+  medium(): void     { this.executePulses(HAPTIC_PRESETS.medium); }
+  heavy(): void      { this.executePulses(HAPTIC_PRESETS.heavy); }
+  success(): void    { this.executePulses(HAPTIC_PRESETS.success); }
+  warning(): void    { this.executePulses(HAPTIC_PRESETS.warning); }
+  error(): void      { this.executePulses(HAPTIC_PRESETS.error); }
+  selection(): void  { this.executePulses(HAPTIC_PRESETS.selection); }
 
-  medium(): void {
-    this.pulse([30]);
-  }
-
-  heavy(): void {
-    this.pulse([20, 20]);
-  }
-
-  success(): void {
-    this.pulse([50, 30]);
-  }
-
-  warning(): void {
-    this.pulse([40]);
-  }
-
-  error(): void {
-    this.pulse([25, 35]);
-  }
-
-  selection(): void {
-    this.pulse([]);
-  }
-
-  pattern(gaps: number[]): void {
-    this.pulse(gaps);
+  pattern(pulses: HapticPulse[]): void {
+    this.executePulses(pulses);
   }
 
   private getLabel(): HTMLLabelElement {
@@ -79,35 +64,34 @@ export class IosSwitchAdapter implements HapticsAdapter {
     return this.label;
   }
 
-  /**
-   * Fire one immediate tap via label.click(), then schedule additional taps
-   * using rAF. gaps[] = ms between consecutive taps. Empty = single tap.
-   */
-  private pulse(gaps: number[]): void {
+  private executePulses(pulses: HapticPulse[]): void {
     const label = this.getLabel();
-    label.click();
 
-    if (gaps.length === 0) return;
+    // Convert pulses to absolute click timestamps; skip low-intensity pulses
+    let t = 0;
+    const clickTimes: number[] = [];
+    for (const pulse of pulses) {
+      t += pulse.delay ?? 0;
+      if ((pulse.intensity ?? 1.0) >= INTENSITY_THRESHOLD) {
+        clickTimes.push(t);
+      }
+    }
 
-    let gapIndex = 0;
+    if (clickTimes.length === 0) return;
+
+    let index = 0;
     let start = 0;
 
     const loop = (time: number) => {
       if (start === 0) start = time;
       const elapsed = time - start;
 
-      let cumulative = 0;
-      for (let i = 0; i <= gapIndex; i++) {
-        cumulative += gaps[i] ?? 0;
+      while (index < clickTimes.length && elapsed >= clickTimes[index]) {
+        label.click();
+        index++;
       }
 
-      if (elapsed >= cumulative) {
-        label.click();
-        gapIndex++;
-        if (gapIndex < gaps.length) {
-          requestAnimationFrame(loop);
-        }
-      } else {
+      if (index < clickTimes.length) {
         requestAnimationFrame(loop);
       }
     };

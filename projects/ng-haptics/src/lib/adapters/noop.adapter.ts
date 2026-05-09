@@ -1,3 +1,4 @@
+import { HapticPulse } from '../types/haptics.types';
 import { HapticsAdapter } from './haptics-adapter';
 
 export class NoopAdapter implements HapticsAdapter {
@@ -12,5 +13,5 @@ export class NoopAdapter implements HapticsAdapter {
   warning(): void {}
   error(): void {}
   selection(): void {}
-  pattern(_pattern: number[]): void {}
+  pattern(_pulses: HapticPulse[]): void {}
 }

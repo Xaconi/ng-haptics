@@ -7,6 +7,7 @@ import { DirectivesDemoComponent } from './sections/directives-demo/directives-d
 import { ConfigurationComponent } from './sections/configuration/configuration.component';
 import { BrowserSupportComponent } from './sections/browser-support/browser-support.component';
 import { WhyLibraryComponent } from './sections/why-library/why-library.component';
+import { CustomPatternComponent } from './sections/custom-pattern/custom-pattern.component';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ import { WhyLibraryComponent } from './sections/why-library/why-library.componen
     ConfigurationComponent,
     BrowserSupportComponent,
     WhyLibraryComponent,
+    CustomPatternComponent,
   ],
   template: `
     <div class="min-h-screen">
@@ -29,6 +31,7 @@ import { WhyLibraryComponent } from './sections/why-library/why-library.componen
         <app-installation />
         <app-basic-usage />
         <app-directives-demo />
+        <app-custom-pattern />
         <app-configuration />
         <app-browser-support />
         <app-why-library />

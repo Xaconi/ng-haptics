@@ -51,10 +51,11 @@ export class MyComponent {
 <!-- Experimental: triggers on hover -->
 <div [ngHapticHover]="'light'">Hover me</div>
 
-<!-- Custom vibration pattern -->
-<button (click)="haptics.pattern([50, 30, 50, 30, 50])">
-  Custom pattern
-</button>`;
+<!-- Custom HapticPulse[] pattern -->
+<button (click)="haptics.pattern([
+  { duration: 20, intensity: 0.8 },
+  { delay: 40, duration: 50, intensity: 1.0 },
+])">Custom pattern</button>`;
 
   readonly sequenceUsage = `// Sequence API (async)
 await haptics.sequence([
