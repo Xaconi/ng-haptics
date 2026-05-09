@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { PLATFORM_ID } from '@angular/core';
-import { PLATFORM_BROWSER_ID, PLATFORM_SERVER_ID } from '@angular/common';
 import { provideHaptics } from './provide-haptics';
 import { HAPTICS_ADAPTER } from '../tokens/haptics.tokens';
 import { NoopAdapter } from '../adapters/noop.adapter';
@@ -11,7 +10,7 @@ describe('provideHaptics()', () => {
     TestBed.configureTestingModule({
       providers: [
         provideHaptics(),
-        { provide: PLATFORM_ID, useValue: PLATFORM_SERVER_ID },
+        { provide: PLATFORM_ID, useValue: 'server' },
       ],
     });
     const adapter = TestBed.inject(HAPTICS_ADAPTER);
@@ -22,7 +21,7 @@ describe('provideHaptics()', () => {
     TestBed.configureTestingModule({
       providers: [
         provideHaptics({ enabled: false }),
-        { provide: PLATFORM_ID, useValue: PLATFORM_BROWSER_ID },
+        { provide: PLATFORM_ID, useValue: 'browser' },
       ],
     });
     const adapter = TestBed.inject(HAPTICS_ADAPTER);
