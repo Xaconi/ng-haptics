@@ -21,7 +21,7 @@ import { HapticsService } from 'ng-haptics';
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-400 text-xs font-medium mb-6">
               <span class="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse"></span>
-              Angular 19 · Zero dependencies · SSR-safe
+              Angular 20 · Zero dependencies · SSR-safe
             </div>
 
             <h1 class="text-5xl sm:text-6xl font-bold tracking-tight mb-4">

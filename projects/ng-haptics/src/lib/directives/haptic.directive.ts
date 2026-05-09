@@ -1,4 +1,4 @@
-import { Directive, HostListener, inject, input } from '@angular/core';
+import { Directive, HostListener, inject, Input } from '@angular/core';
 import { HapticPreset } from '../types/haptics.types';
 import { HapticsService } from '../service/haptics.service';
 
@@ -7,12 +7,12 @@ import { HapticsService } from '../service/haptics.service';
   standalone: true,
 })
 export class NgHapticDirective {
-  readonly ngHaptic = input<HapticPreset>('medium');
+  @Input() ngHaptic: HapticPreset = 'medium';
 
   private readonly haptics = inject(HapticsService);
 
   @HostListener('click')
   onClick(): void {
-    this.haptics[this.ngHaptic()]();
+    this.haptics[this.ngHaptic]();
   }
 }

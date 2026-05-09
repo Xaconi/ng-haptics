@@ -3,14 +3,16 @@ import { WebVibrationAdapter } from './web-vibration.adapter';
 
 describe('WebVibrationAdapter', () => {
   let adapter: WebVibrationAdapter;
+  let vibrateSpy: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
-    adapter = new WebVibrationAdapter();
-    Object.defineProperty(navigator, 'vibrate', {
-      value: vi.fn(),
-      writable: true,
-      configurable: true,
+    vibrateSpy = vi.fn();
+    // Mock navigator.vibrate using vi.stubGlobal
+    vi.stubGlobal('navigator', {
+      ...navigator,
+      vibrate: vibrateSpy,
     });
+    adapter = new WebVibrationAdapter();
   });
 
   it('isSupported() returns true when navigator.vibrate exists', () => {
@@ -19,40 +21,44 @@ describe('WebVibrationAdapter', () => {
 
   // Presets: intensity scales duration (effectiveDuration = round(duration * intensity))
   it('selection() vibrates with scaled duration', () => {
-    adapter.selection(); // { duration: 5, intensity: 0.3 } → round(5*0.3) = 2
-    expect(navigator.vibrate).toHaveBeenCalledWith([2]);
+    adapter.selection(); // { duration: 10 } → 10
+    expect(vibrateSpy).toHaveBeenCalledWith([10]);
   });
 
   it('light() vibrates with scaled duration', () => {
-    adapter.light(); // { duration: 10, intensity: 0.5 } → round(10*0.5) = 5
-    expect(navigator.vibrate).toHaveBeenCalledWith([5]);
+    adapter.light(); // { duration: 35, intensity: 0.4 } → round(35*0.4) = 14
+    expect(vibrateSpy).toHaveBeenCalledWith([14]);
   });
 
   it('medium() vibrates with scaled duration', () => {
-    adapter.medium(); // { duration: 20, intensity: 0.8 } → round(20*0.8) = 16
-    expect(navigator.vibrate).toHaveBeenCalledWith([16]);
+    adapter.medium(); // [{ duration: 35, intensity: 0.7 }, { delay: 30, duration: 35, intensity: 0.7 }]
+    // pulse1: round(35*0.7)=25, pulse2: delay=30, 25 → [25, 30, 25]
+    expect(vibrateSpy).toHaveBeenCalledWith([25, 30, 25]);
   });
 
   it('heavy() vibrates with full duration', () => {
-    adapter.heavy(); // { duration: 40, intensity: 1.0 } → 40
-    expect(navigator.vibrate).toHaveBeenCalledWith([40]);
+    adapter.heavy(); // [{ duration: 35, intensity: 1.0 }, { delay: 30, duration: 35, intensity: 1.0 }, { delay: 20, duration: 35, intensity: 1.0 }]
+    // pulse1: 35, pulse2: delay=30, 35, pulse3: delay=20, 35 → [35, 30, 35, 20, 35]
+    expect(vibrateSpy).toHaveBeenCalledWith([35, 30, 35, 20, 35]);
   });
 
   it('success() vibrates with two-pulse pattern', () => {
-    adapter.success(); // [{ duration:10, intensity:0.6 }, { delay:40, duration:20, intensity:1.0 }]
-    // pulse1: round(10*0.6)=6, pulse2: delay=40, round(20*1.0)=20 → [6, 40, 20]
-    expect(navigator.vibrate).toHaveBeenCalledWith([6, 40, 20]);
+    adapter.success(); // [{ duration:40, intensity:0.5 }, { delay:100, duration:40, intensity:1.0 }]
+    // pulse1: round(40*0.5)=20, pulse2: delay=100, round(40*1.0)=40 → [20, 100, 40]
+    expect(vibrateSpy).toHaveBeenCalledWith([20, 100, 40]);
   });
 
   it('warning() vibrates with two-pulse pattern', () => {
-    adapter.warning(); // [{ duration:20, intensity:0.9 }, { delay:30, duration:20, intensity:0.9 }]
-    // pulse1: round(20*0.9)=18, pulse2: delay=30, 18 → [18, 30, 18]
-    expect(navigator.vibrate).toHaveBeenCalledWith([18, 30, 18]);
+    adapter.warning(); // [{ duration:40, intensity:0.8 }, { delay:200, duration:40, intensity:0.7 }]
+    // pulse1: round(40*0.8)=32, pulse2: delay=200, round(40*0.7)=28 → [32, 200, 28]
+    expect(vibrateSpy).toHaveBeenCalledWith([32, 200, 28]);
   });
 
   it('error() vibrates with two-pulse pattern', () => {
-    adapter.error(); // [{ duration:50, intensity:1.0 }, { delay:25, duration:50, intensity:1.0 }]
-    expect(navigator.vibrate).toHaveBeenCalledWith([50, 25, 50]);
+    adapter.error(); // [{ duration:40, intensity:0.7 }, { delay:100, duration:40, intensity:0.7 }, { delay:100, duration:40, intensity:0.9 }, { delay:100, duration:40, intensity:0.6 }]
+    // pulse1: round(40*0.7)=28, pulse2: delay=100, 28, pulse3: delay=100, round(40*0.9)=36, pulse4: delay=100, round(40*0.6)=24
+    // → [28, 100, 28, 100, 36, 100, 24]
+    expect(vibrateSpy).toHaveBeenCalledWith([28, 100, 28, 100, 36, 100, 24]);
   });
 
   it('pattern() executes custom HapticPulse array', () => {
@@ -60,12 +66,12 @@ describe('WebVibrationAdapter', () => {
       { duration: 50, intensity: 1.0 },
       { delay: 30, duration: 50, intensity: 1.0 },
     ]);
-    expect(navigator.vibrate).toHaveBeenCalledWith([50, 30, 50]);
+    expect(vibrateSpy).toHaveBeenCalledWith([50, 30, 50]);
   });
 
   it('pattern() respects intensity scaling', () => {
     adapter.pattern([{ duration: 40, intensity: 0.5 }]);
-    expect(navigator.vibrate).toHaveBeenCalledWith([20]);
+    expect(vibrateSpy).toHaveBeenCalledWith([20]);
   });
 
   it('pattern() uses 1ms minimum gap when delay is 0 between pulses', () => {
@@ -73,6 +79,6 @@ describe('WebVibrationAdapter', () => {
       { duration: 20 },
       { duration: 20 }, // delay defaults to 0 → gets 1ms gap
     ]);
-    expect(navigator.vibrate).toHaveBeenCalledWith([20, 1, 20]);
+    expect(vibrateSpy).toHaveBeenCalledWith([20, 1, 20]);
   });
 });
