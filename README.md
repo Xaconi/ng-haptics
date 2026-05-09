@@ -1,7 +1,7 @@
 # ng-haptics
 
 [![npm version](https://img.shields.io/npm/v/ng-haptics.svg?style=flat-square)](https://www.npmjs.com/package/ng-haptics)
-[![CI](https://github.com/nicog/ng-web-haptics/actions/workflows/ci.yml/badge.svg)](https://github.com/nicog/ng-web-haptics/actions/workflows/ci.yml)
+[![CI](https://github.com/Xaconi/ng-web-haptics/actions/workflows/ci.yml/badge.svg)](https://github.com/Xaconi/ng-web-haptics/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-violet.svg?style=flat-square)](LICENSE)
 [![Angular](https://img.shields.io/badge/Angular-19+-DD0031?style=flat-square&logo=angular)](https://angular.dev)
 [![Bundle size](https://img.shields.io/bundlephobia/minzip/ng-haptics?style=flat-square)](https://bundlephobia.com/package/ng-haptics)
