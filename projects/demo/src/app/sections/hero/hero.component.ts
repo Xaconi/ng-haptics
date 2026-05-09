@@ -36,7 +36,7 @@ import { HapticsService } from 'ng-haptics';
             <!-- CTA buttons -->
             <div class="flex flex-wrap gap-3 justify-center lg:justify-start mb-10">
               <a
-                href="https://github.com/Xaconi/ng-web-haptics"
+                href="https://github.com/Xaconi/ng-haptics"
                 target="_blank"
                 rel="noopener"
                 class="haptic-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-100 text-sm font-medium transition-colors"

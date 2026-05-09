@@ -1,14 +1,14 @@
 # ng-haptics
 
 [![npm version](https://img.shields.io/npm/v/ng-haptics.svg?style=flat-square)](https://www.npmjs.com/package/ng-haptics)
-[![CI](https://github.com/Xaconi/ng-web-haptics/actions/workflows/ci.yml/badge.svg)](https://github.com/Xaconi/ng-web-haptics/actions/workflows/ci.yml)
+[![CI](https://github.com/Xaconi/ng-haptics/actions/workflows/ci.yml/badge.svg)](https://github.com/Xaconi/ng-haptics/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-violet.svg?style=flat-square)](LICENSE)
 [![Angular](https://img.shields.io/badge/Angular-19+-DD0031?style=flat-square&logo=angular)](https://angular.dev)
 [![Bundle size](https://img.shields.io/bundlephobia/minzip/ng-haptics?style=flat-square)](https://bundlephobia.com/package/ng-haptics)
 
 > The modern, Angular-native way to add haptic feedback to web applications.
 
-**[Live Demo →](https://nicog.github.io/ng-web-haptics)**
+**[Live Demo →](https://nicog.github.io/ng-haptics)**
 
 ## Features
 
@@ -119,10 +119,10 @@ interface HapticsConfig {
 
 | Platform | Support |
 |----------|---------|
-| Android Chrome / Firefox | ✅ Full |
-| iOS Safari / Chrome | ❌ Not supported (no Vibration API) |
-| Desktop browsers | ❌ No hardware haptics |
-| SSR / Node.js | ✅ Silent no-op |
+| Android Chrome / Firefox | ✅ Full (Web Vibration API) |
+| iOS Safari / Chrome | ✅ Full (WebKit switch trick) |
+| Desktop browsers | — Silent no-op (no haptic hardware) |
+| SSR / Node.js | — Silent no-op |
 
 ## Architecture
 
@@ -131,9 +131,9 @@ HapticsService
     ↓
 HapticsAdapter (interface)
     ↓
-WebVibrationAdapter  /  NoopAdapter
-    ↓
-navigator.vibrate()
+WebVibrationAdapter     IosSwitchAdapter       NoopAdapter
+(Android/Firefox)       (iOS Safari/Chrome)    (SSR/desktop)
+navigator.vibrate()     <input switch>.click()
 ```
 
 The adapter pattern cleanly separates the Angular API from the browser implementation, making testing, SSR, and future extensions straightforward.
