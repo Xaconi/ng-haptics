@@ -1,0 +1,23 @@
+{
+  "name": "ng-haptics",
+  "version": "0.1.0",
+  "description": "Angular-native haptic feedback library using Web Vibration API",
+  "keywords": [
+    "angular",
+    "haptics",
+    "vibration",
+    "feedback",
+    "web-api"
+  ],
+  "author": "Nicolás Giacconi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nicog/ng-web-haptics.git"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=19.0.0",
+    "@angular/common": ">=19.0.0"
+  },
+  "sideEffects": false
+}
