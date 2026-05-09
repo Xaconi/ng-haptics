@@ -71,13 +71,13 @@ interface BrowserRow {
 })
 export class BrowserSupportComponent {
   readonly rows: BrowserRow[] = [
-    { browser: 'Android Chrome', icon: '🟢', support: 'full', note: 'Full Vibration API support' },
-    { browser: 'Android Firefox', icon: '🟢', support: 'full', note: 'Full Vibration API support' },
-    { browser: 'iOS Safari', icon: '🟡', support: 'none', note: 'navigator.vibrate not supported' },
-    { browser: 'iOS Chrome', icon: '🟡', support: 'none', note: 'Same WebKit limitations as Safari' },
-    { browser: 'Desktop Chrome', icon: '⚪', support: 'none', note: 'API exists but no hardware haptics' },
-    { browser: 'Desktop Firefox', icon: '⚪', support: 'none', note: 'API disabled for desktop' },
-    { browser: 'Desktop Safari', icon: '⚪', support: 'none', note: 'API not implemented' },
+    { browser: 'Android Chrome', icon: '🟢', support: 'full', note: 'Web Vibration API (WebVibrationAdapter)' },
+    { browser: 'Android Firefox', icon: '🟢', support: 'full', note: 'Web Vibration API (WebVibrationAdapter)' },
+    { browser: 'iOS Safari', icon: '🟢', support: 'full', note: 'WebKit switch trick (IosSwitchAdapter)' },
+    { browser: 'iOS Chrome', icon: '🟢', support: 'full', note: 'WebKit switch trick (IosSwitchAdapter)' },
+    { browser: 'Desktop Chrome', icon: '⚪', support: 'none', note: 'No haptic hardware — silent no-op' },
+    { browser: 'Desktop Firefox', icon: '⚪', support: 'none', note: 'No haptic hardware — silent no-op' },
+    { browser: 'Desktop Safari', icon: '⚪', support: 'none', note: 'No haptic hardware — silent no-op' },
     { browser: 'SSR / Node.js', icon: '✅', support: 'none', note: 'NoopAdapter — safe, no errors' },
   ];
 }

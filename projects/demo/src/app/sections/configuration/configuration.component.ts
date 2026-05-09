@@ -41,7 +41,7 @@ provideHaptics({ respectReducedMotion: false })`;
 // It uses isPlatformBrowser() internally — no window/navigator
 // access happens on the server. NoopAdapter is selected automatically.
 
-// Angular Universal / SSR setup — no extra config needed:
+// Angular SSR setup — no extra config needed:
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHaptics(), // works on server and browser
