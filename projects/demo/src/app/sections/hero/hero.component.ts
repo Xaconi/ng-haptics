@@ -1,7 +1,7 @@
 import { Component, inject, PLATFORM_ID, OnInit, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { QrCodeComponent } from '../../components/qr-code/qr-code.component';
-import { HapticsService } from '../../../../../ng-haptics/src/public-api';
+import { HapticsService } from 'ng-haptics';
 
 @Component({
   selector: 'app-hero',
@@ -36,7 +36,7 @@ import { HapticsService } from '../../../../../ng-haptics/src/public-api';
             <!-- CTA buttons -->
             <div class="flex flex-wrap gap-3 justify-center lg:justify-start mb-10">
               <a
-                href="https://github.com/nicog/ng-web-haptics"
+                href="https://github.com/Xaconi/ng-web-haptics"
                 target="_blank"
                 rel="noopener"
                 class="haptic-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-100 text-sm font-medium transition-colors"

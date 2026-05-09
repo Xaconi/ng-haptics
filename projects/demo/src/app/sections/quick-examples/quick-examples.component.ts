@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { HapticsService, HapticPreset } from '../../../../../ng-haptics/src/public-api';
+import { HapticsService, HapticPreset } from 'ng-haptics';
 import { SectionHeaderComponent } from '../../components/section-header/section-header.component';
 
 interface HapticButton {

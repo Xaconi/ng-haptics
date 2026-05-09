@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { SectionHeaderComponent } from '../../components/section-header/section-header.component';
-import { NgHapticDirective, NgHapticTapDirective, NgHapticHoverDirective } from '../../../../../ng-haptics/src/public-api';
+import { NgHapticDirective, NgHapticTapDirective, NgHapticHoverDirective } from 'ng-haptics';
 
 @Component({
   selector: 'app-directives-demo',
