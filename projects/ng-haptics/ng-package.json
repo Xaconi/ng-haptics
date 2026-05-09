@@ -3,5 +3,11 @@
   "lib": {
     "entryFile": "src/index.ts"
   },
-  "assets": []
+  "assets": [
+    {
+      "glob": "README.md",
+      "input": ".",
+      "output": "/"
+    }
+  ]
 }

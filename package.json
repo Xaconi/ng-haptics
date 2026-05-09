@@ -12,7 +12,7 @@
     "lint": "ng lint",
     "format": "prettier --write \"projects/**/*.ts\" \"projects/**/*.html\"",
     "format:check": "prettier --check \"projects/**/*.ts\" \"projects/**/*.html\"",
-    "release": "npm publish ./dist/ng-haptics"
+    "release": "ng build ng-haptics --configuration production && node -e \"require('fs').copyFileSync('README.md', 'projects/ng-haptics/dist/README.md')\" && npm publish ./projects/ng-haptics/dist --//registry.npmjs.org/:_authToken=$env:NPM_TOKEN"
   },
   "dependencies": {
     "@angular/animations": "^20.2.0",
