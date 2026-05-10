@@ -1,6 +1,6 @@
 {
   "name": "ng-haptics",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Angular-native haptic feedback library using Web Vibration API",
   "keywords": [
     "angular",
@@ -16,6 +16,7 @@
     "type": "git",
     "url": "https://github.com/Xaconi/ng-haptics.git"
   },
+  "homepage": "https://xaconi.github.io/ng-haptics/",
   "peerDependencies": {
     "@angular/core": ">=19.0.0",
     "@angular/common": ">=19.0.0"
