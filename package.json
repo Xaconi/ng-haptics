@@ -6,7 +6,7 @@
     "start": "ng serve demo",
     "start:host": "ng serve demo --host 0.0.0.0 --port 4200",
     "build": "ng build ng-haptics",
-    "build:demo": "ng build demo",
+    "build:demo": "ng build demo --base-href /ng-haptics/",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "ng lint",
