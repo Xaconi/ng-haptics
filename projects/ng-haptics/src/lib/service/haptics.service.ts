@@ -1,72 +1,48 @@
-import { Injectable, inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { DestroyRef, Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { HAPTICS_ADAPTER, HAPTICS_CONFIG } from '../tokens/haptics.tokens';
 import { HapticPreset, HapticPulse, HapticsConfig, HapticsSupport, SequenceEntry } from '../types/haptics.types';
+import { IosSwitchAdapter } from '../adapters/ios-switch.adapter';
+import { WebVibrationAdapter } from '../adapters/web-vibration.adapter';
+import { createReducedMotionTracker } from './reduced-motion';
+import { debugLog } from './debug-log';
+import { detectHapticsSupport } from './support-detection';
 
 @Injectable()
 export class HapticsService {
   private readonly adapter = inject(HAPTICS_ADAPTER);
-  private readonly config: HapticsConfig = inject(HAPTICS_CONFIG);
+  private readonly config = inject(HAPTICS_CONFIG) as Required<HapticsConfig>;
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly reducedMotionTracker = createReducedMotionTracker(this.destroyRef, this.config.respectReducedMotion);
+  private lastTrigger = 0;
+
+  private log(message: string, payload?: unknown): void {
+    debugLog(this.config.debug, message, payload);
+  }
+
+  private shouldBlockForReducedMotion(): boolean {
+    return !!this.config.respectReducedMotion && this.reducedMotionTracker.value;
+  }
 
   get isSupported(): boolean {
     return this.adapter.isSupported();
   }
 
   support(): HapticsSupport {
-    if (!isPlatformBrowser(this.platformId)) {
-      return {
-        supported: false,
-        platform: 'unknown',
-        method: 'unsupported',
-        browser: 'unknown',
-        reducedMotion: false,
-      };
+    const method = this.getAdapterMethod();
+    const support = detectHapticsSupport(this.platformId, this.reducedMotionTracker.value, this.isSupported, method);
+    this.log(`Support: ${support.supported ? 'supported' : 'unsupported'}`, support);
+    return support;
+  }
+
+  private getAdapterMethod(): HapticsSupport['method'] {
+    if (this.adapter instanceof WebVibrationAdapter) {
+      return 'vibration-api';
     }
-
-    const userAgent = navigator.userAgent.toLowerCase();
-    const userAgentData = (navigator as any).userAgentData;
-
-    // Platform detection
-    let platform: HapticsSupport['platform'] = 'unknown';
-    if (userAgent.includes('android')) {
-      platform = 'android';
-    } else if (userAgent.includes('iphone') || userAgent.includes('ipad') || userAgent.includes('ipod')) {
-      platform = 'ios';
-    } else if (userAgent.includes('mac') || userAgent.includes('windows') || userAgent.includes('linux')) {
-      platform = 'desktop';
+    if (this.adapter instanceof IosSwitchAdapter) {
+      return 'ios-switch';
     }
-
-    // Browser detection
-    let browser: HapticsSupport['browser'] = 'unknown';
-    if (userAgent.includes('chrome') && !userAgent.includes('edg')) {
-      browser = 'chrome';
-    } else if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
-      browser = 'safari';
-    } else if (userAgent.includes('firefox')) {
-      browser = 'firefox';
-    } else if (userAgent.includes('edg')) {
-      browser = 'edge';
-    }
-
-    // Method detection
-    let method: HapticsSupport['method'] = 'unsupported';
-    if ('vibrate' in navigator) {
-      method = 'vibration-api';
-    } else {
-      method = 'noop';
-    }
-
-    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-    const supported = this.isSupported;
-
-    return {
-      supported,
-      platform,
-      method,
-      browser,
-      reducedMotion,
-    };
+    return 'noop';
   }
 
   light(): void {
@@ -98,9 +74,19 @@ export class HapticsService {
   }
 
   pattern(pulses: HapticPulse[]): void {
-    if (this.config.debug) {
-      console.log('[ng-haptics] pattern:', pulses);
+    if (this.shouldBlockForReducedMotion()) {
+      this.log('Reduced motion active, haptics disabled');
+      return;
     }
+
+    const now = Date.now();
+    if (this.config.cooldown && now - this.lastTrigger < this.config.cooldown) {
+      this.log('Cooldown prevented vibration');
+      return;
+    }
+    this.lastTrigger = now;
+
+    this.log('Triggered: pattern', pulses);
     this.adapter.pattern(pulses);
   }
 
@@ -115,9 +101,19 @@ export class HapticsService {
   }
 
   private trigger(preset: HapticPreset): void {
-    if (this.config.debug) {
-      console.log('[ng-haptics]', preset);
+    if (this.shouldBlockForReducedMotion()) {
+      this.log('Reduced motion active, haptics disabled');
+      return;
     }
+
+    const now = Date.now();
+    if (this.config.cooldown && now - this.lastTrigger < this.config.cooldown) {
+      this.log('Cooldown prevented vibration');
+      return;
+    }
+    this.lastTrigger = now;
+
+    this.log(`Triggered: ${preset}`);
     this.adapter[preset]();
   }
 }

@@ -29,3 +29,5 @@ yarn-error.log*
 
 # AI
 .claude/*
+project-description.md
+v1.1.md

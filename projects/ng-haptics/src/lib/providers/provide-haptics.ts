@@ -12,6 +12,7 @@ export function provideHaptics(config: HapticsConfig = {}): EnvironmentProviders
     enabled: true,
     respectReducedMotion: true,
     debug: false,
+    cooldown: 0,
     ...config,
   };
 
@@ -24,12 +25,6 @@ export function provideHaptics(config: HapticsConfig = {}): EnvironmentProviders
           return new NoopAdapter();
         }
         if (resolvedConfig.enabled === false) {
-          return new NoopAdapter();
-        }
-        if (
-          resolvedConfig.respectReducedMotion &&
-          window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-        ) {
           return new NoopAdapter();
         }
         if ('vibrate' in navigator) {

@@ -5,6 +5,7 @@ import { InstallationComponent } from './sections/installation/installation.comp
 import { BasicUsageComponent } from './sections/basic-usage/basic-usage.component';
 import { DirectivesDemoComponent } from './sections/directives-demo/directives-demo.component';
 import { ConfigurationComponent } from './sections/configuration/configuration.component';
+import { DeviceSupportComponent } from './sections/device-support/device-support.component';
 import { BrowserSupportComponent } from './sections/browser-support/browser-support.component';
 import { WhyLibraryComponent } from './sections/why-library/why-library.component';
 import { CustomPatternComponent } from './sections/custom-pattern/custom-pattern.component';
@@ -19,6 +20,7 @@ import { CustomPatternComponent } from './sections/custom-pattern/custom-pattern
     BasicUsageComponent,
     DirectivesDemoComponent,
     ConfigurationComponent,
+    DeviceSupportComponent,
     BrowserSupportComponent,
     WhyLibraryComponent,
     CustomPatternComponent,
@@ -33,6 +35,7 @@ import { CustomPatternComponent } from './sections/custom-pattern/custom-pattern
         <app-directives-demo />
         <app-custom-pattern />
         <app-configuration />
+        <app-device-support />
         <app-browser-support />
         <app-why-library />
       </main>

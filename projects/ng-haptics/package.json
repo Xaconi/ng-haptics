@@ -1,6 +1,6 @@
 {
   "name": "ng-haptics",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Angular-native haptic feedback library using Web Vibration API",
   "keywords": [
     "angular",
