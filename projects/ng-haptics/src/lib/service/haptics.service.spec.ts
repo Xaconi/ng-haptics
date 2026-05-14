@@ -5,10 +5,11 @@ import { TestBed } from '@angular/core/testing';
 import { PLATFORM_ID } from '@angular/core';
 import { HapticsService } from './haptics.service';
 import { HAPTICS_ADAPTER, HAPTICS_CONFIG } from '../tokens/haptics.tokens';
+import { HapticsConfig } from '../types/haptics.types';
 import { NoopAdapter } from '../adapters/noop.adapter';
 
 describe('HapticsService', () => {
-  function setup(adapterOverrides: Partial<NoopAdapter> = {}, configOverrides: Partial<any> = {}) {
+  function setup(adapterOverrides: Partial<NoopAdapter> = {}, configOverrides: Partial<HapticsConfig> = {}) {
     const adapter = Object.assign(new NoopAdapter(), adapterOverrides);
     const config = { enabled: true, debug: false, respectReducedMotion: true, cooldown: 0, ...configOverrides };
     const spies = {
