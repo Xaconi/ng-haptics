@@ -10,8 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Support Detection API: New `support()` method in `HapticsService` to detect haptic capabilities at runtime
 - `HapticsSupport` interface with platform, browser, method, and reduced motion detection
+- Cooldown / Throttling support to prevent accidental vibration spam
 
-## [1.0.2] - 20264-05-11
+## [1.0.2] - 2026-05-11
 
 ### Fixed
 - Minor bug fixes and improvements

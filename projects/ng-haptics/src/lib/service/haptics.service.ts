@@ -8,6 +8,7 @@ export class HapticsService {
   private readonly adapter = inject(HAPTICS_ADAPTER);
   private readonly config: HapticsConfig = inject(HAPTICS_CONFIG);
   private readonly platformId = inject(PLATFORM_ID);
+  private lastTrigger = 0;
 
   get isSupported(): boolean {
     return this.adapter.isSupported();
@@ -98,6 +99,15 @@ export class HapticsService {
   }
 
   pattern(pulses: HapticPulse[]): void {
+    const now = Date.now();
+    if (this.config.cooldown && now - this.lastTrigger < this.config.cooldown) {
+      if (this.config.debug) {
+        console.log('[ng-haptics] Cooldown prevented vibration');
+      }
+      return;
+    }
+    this.lastTrigger = now;
+
     if (this.config.debug) {
       console.log('[ng-haptics] pattern:', pulses);
     }
@@ -115,6 +125,15 @@ export class HapticsService {
   }
 
   private trigger(preset: HapticPreset): void {
+    const now = Date.now();
+    if (this.config.cooldown && now - this.lastTrigger < this.config.cooldown) {
+      if (this.config.debug) {
+        console.log('[ng-haptics] Cooldown prevented vibration');
+      }
+      return;
+    }
+    this.lastTrigger = now;
+
     if (this.config.debug) {
       console.log('[ng-haptics]', preset);
     }
