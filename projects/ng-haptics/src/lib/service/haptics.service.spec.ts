@@ -94,6 +94,36 @@ describe('HapticsService', () => {
     consoleSpy.mockRestore();
   });
 
+  it('blocks haptics when reduced motion is active and respectReducedMotion is true', () => {
+    const originalMatchMedia = globalThis.matchMedia;
+    globalThis.matchMedia = vi.fn().mockReturnValue({
+      matches: true,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }) as unknown as typeof window.matchMedia;
+
+    const { service, spies } = setup({}, { respectReducedMotion: true });
+    service.light();
+    expect(spies.light).not.toHaveBeenCalled();
+
+    globalThis.matchMedia = originalMatchMedia;
+  });
+
+  it('does not block haptics when respectReducedMotion is false', () => {
+    const originalMatchMedia = globalThis.matchMedia;
+    globalThis.matchMedia = vi.fn().mockReturnValue({
+      matches: true,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }) as unknown as typeof window.matchMedia;
+
+    const { service, spies } = setup({}, { respectReducedMotion: false });
+    service.light();
+    expect(spies.light).toHaveBeenCalled();
+
+    globalThis.matchMedia = originalMatchMedia;
+  });
+
   it('support() returns unsupported in SSR context', () => {
     TestBed.configureTestingModule({
       providers: [
