@@ -74,7 +74,23 @@ describe('HapticsService', () => {
     });
     const service = TestBed.inject(HapticsService);
     service.light();
-    expect(consoleSpy).toHaveBeenCalledWith('[ng-haptics]', 'light');
+    expect(consoleSpy).toHaveBeenCalledWith('[ng-haptics]', 'Triggered: light');
+    consoleSpy.mockRestore();
+  });
+
+  it('logs support details when debug is enabled', () => {
+    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => { });
+    TestBed.configureTestingModule({
+      providers: [
+        HapticsService,
+        { provide: HAPTICS_ADAPTER, useValue: new NoopAdapter() },
+        { provide: HAPTICS_CONFIG, useValue: { debug: true } },
+      ],
+    });
+    const service = TestBed.inject(HapticsService);
+    const result = service.support();
+    expect(result.supported).toBe(false);
+    expect(consoleSpy).toHaveBeenCalledWith('[ng-haptics]', 'Support: unsupported', result);
     consoleSpy.mockRestore();
   });
 
@@ -127,7 +143,7 @@ describe('HapticsService', () => {
     const service = TestBed.inject(HapticsService);
     service.light();
     service.medium(); // Prevented
-    expect(consoleSpy).toHaveBeenCalledWith('[ng-haptics] Cooldown prevented vibration');
+    expect(consoleSpy).toHaveBeenCalledWith('[ng-haptics]', 'Cooldown prevented vibration');
     consoleSpy.mockRestore();
     vi.useRealTimers();
   });

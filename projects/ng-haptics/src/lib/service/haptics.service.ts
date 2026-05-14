@@ -10,6 +10,18 @@ export class HapticsService {
   private readonly platformId = inject(PLATFORM_ID);
   private lastTrigger = 0;
 
+  private log(message: string, payload?: unknown): void {
+    if (!this.config.debug) {
+      return;
+    }
+
+    if (payload !== undefined) {
+      console.log('[ng-haptics]', message, payload);
+    } else {
+      console.log('[ng-haptics]', message);
+    }
+  }
+
   get isSupported(): boolean {
     return this.adapter.isSupported();
   }
@@ -26,7 +38,6 @@ export class HapticsService {
     }
 
     const userAgent = navigator.userAgent.toLowerCase();
-    const userAgentData = (navigator as any).userAgentData;
 
     // Platform detection
     let platform: HapticsSupport['platform'] = 'unknown';
@@ -60,14 +71,17 @@ export class HapticsService {
 
     const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
     const supported = this.isSupported;
-
-    return {
+    const result: HapticsSupport = {
       supported,
       platform,
       method,
       browser,
       reducedMotion,
     };
+
+    this.log(`Support: ${supported ? 'supported' : 'unsupported'}`, result);
+
+    return result;
   }
 
   light(): void {
@@ -101,16 +115,12 @@ export class HapticsService {
   pattern(pulses: HapticPulse[]): void {
     const now = Date.now();
     if (this.config.cooldown && now - this.lastTrigger < this.config.cooldown) {
-      if (this.config.debug) {
-        console.log('[ng-haptics] Cooldown prevented vibration');
-      }
+      this.log('Cooldown prevented vibration');
       return;
     }
     this.lastTrigger = now;
 
-    if (this.config.debug) {
-      console.log('[ng-haptics] pattern:', pulses);
-    }
+    this.log('Triggered: pattern', pulses);
     this.adapter.pattern(pulses);
   }
 
@@ -127,16 +137,12 @@ export class HapticsService {
   private trigger(preset: HapticPreset): void {
     const now = Date.now();
     if (this.config.cooldown && now - this.lastTrigger < this.config.cooldown) {
-      if (this.config.debug) {
-        console.log('[ng-haptics] Cooldown prevented vibration');
-      }
+      this.log('Cooldown prevented vibration');
       return;
     }
     this.lastTrigger = now;
 
-    if (this.config.debug) {
-      console.log('[ng-haptics]', preset);
-    }
+    this.log(`Triggered: ${preset}`);
     this.adapter[preset]();
   }
 }
