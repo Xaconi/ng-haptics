@@ -12,6 +12,7 @@ export function provideHaptics(config: HapticsConfig = {}): EnvironmentProviders
     enabled: true,
     respectReducedMotion: true,
     debug: false,
+    cooldown: 0,
     ...config,
   };
 

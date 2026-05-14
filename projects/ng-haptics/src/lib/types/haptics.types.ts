@@ -4,6 +4,7 @@ export interface HapticsConfig {
   enabled?: boolean;
   respectReducedMotion?: boolean;
   debug?: boolean;
+  cooldown?: number; // ms, default 0
 }
 
 export type SequenceEntry = HapticPreset | { delay: number };
