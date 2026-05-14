@@ -13,3 +13,11 @@ export interface HapticPulse {
   intensity?: number; // 0–1, default 1.0
   delay?: number;     // ms pause BEFORE this pulse
 }
+
+export interface HapticsSupport {
+  supported: boolean;
+  platform: 'android' | 'ios' | 'desktop' | 'unknown';
+  method: 'vibration-api' | 'noop' | 'unsupported';
+  browser: 'chrome' | 'safari' | 'firefox' | 'edge' | 'unknown';
+  reducedMotion: boolean;
+}
