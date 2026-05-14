@@ -18,7 +18,7 @@ export interface HapticPulse {
 export interface HapticsSupport {
   supported: boolean;
   platform: 'android' | 'ios' | 'desktop' | 'unknown';
-  method: 'vibration-api' | 'noop' | 'unsupported';
+  method: 'vibration-api' | 'ios-switch' | 'noop' | 'unsupported';
   browser: 'chrome' | 'safari' | 'firefox' | 'edge' | 'unknown';
   reducedMotion: boolean;
 }

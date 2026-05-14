@@ -1,6 +1,8 @@
 import { DestroyRef, Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { HAPTICS_ADAPTER, HAPTICS_CONFIG } from '../tokens/haptics.tokens';
 import { HapticPreset, HapticPulse, HapticsConfig, HapticsSupport, SequenceEntry } from '../types/haptics.types';
+import { IosSwitchAdapter } from '../adapters/ios-switch.adapter';
+import { WebVibrationAdapter } from '../adapters/web-vibration.adapter';
 import { createReducedMotionTracker } from './reduced-motion';
 import { debugLog } from './debug-log';
 import { detectHapticsSupport } from './support-detection';
@@ -27,9 +29,20 @@ export class HapticsService {
   }
 
   support(): HapticsSupport {
-    const support = detectHapticsSupport(this.platformId, this.reducedMotionTracker.value, this.isSupported);
+    const method = this.getAdapterMethod();
+    const support = detectHapticsSupport(this.platformId, this.reducedMotionTracker.value, this.isSupported, method);
     this.log(`Support: ${support.supported ? 'supported' : 'unsupported'}`, support);
     return support;
+  }
+
+  private getAdapterMethod(): HapticsSupport['method'] {
+    if (this.adapter instanceof WebVibrationAdapter) {
+      return 'vibration-api';
+    }
+    if (this.adapter instanceof IosSwitchAdapter) {
+      return 'ios-switch';
+    }
+    return 'noop';
   }
 
   light(): void {

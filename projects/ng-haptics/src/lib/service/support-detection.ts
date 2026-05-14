@@ -1,7 +1,12 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HapticsSupport } from '../types/haptics.types';
 
-export function detectHapticsSupport(platformId: object, reducedMotion: boolean, isSupported: boolean): HapticsSupport {
+export function detectHapticsSupport(
+    platformId: object,
+    reducedMotion: boolean,
+    isSupported: boolean,
+    method: HapticsSupport['method'],
+): HapticsSupport {
     if (!isPlatformBrowser(platformId)) {
         return {
             supported: false,
@@ -17,28 +22,26 @@ export function detectHapticsSupport(platformId: object, reducedMotion: boolean,
     let platform: HapticsSupport['platform'] = 'unknown';
     if (userAgent.includes('android')) {
         platform = 'android';
-    } else if (userAgent.includes('iphone') || userAgent.includes('ipad') || userAgent.includes('ipod')) {
+    } else if (
+        userAgent.includes('iphone') ||
+        userAgent.includes('ipad') ||
+        userAgent.includes('ipod') ||
+        (userAgent.includes('macintosh') && userAgent.includes('mobile'))
+    ) {
         platform = 'ios';
     } else if (userAgent.includes('mac') || userAgent.includes('windows') || userAgent.includes('linux')) {
         platform = 'desktop';
     }
 
     let browser: HapticsSupport['browser'] = 'unknown';
-    if (userAgent.includes('chrome') && !userAgent.includes('edg')) {
-        browser = 'chrome';
-    } else if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
-        browser = 'safari';
-    } else if (userAgent.includes('firefox')) {
-        browser = 'firefox';
-    } else if (userAgent.includes('edg')) {
+    if (userAgent.includes('edg')) {
         browser = 'edge';
-    }
-
-    let method: HapticsSupport['method'] = 'unsupported';
-    if ('vibrate' in navigator) {
-        method = 'vibration-api';
-    } else {
-        method = 'noop';
+    } else if (userAgent.includes('crios') || userAgent.includes('chrome')) {
+        browser = 'chrome';
+    } else if (userAgent.includes('fxios') || userAgent.includes('firefox')) {
+        browser = 'firefox';
+    } else if (userAgent.includes('safari')) {
+        browser = 'safari';
     }
 
     return {

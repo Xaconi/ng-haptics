@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Updated
 
 - Refactor Haptics service
+- Demo improvements: live device support section with runtime browser detection and mobile guidance
 
 ## [1.0.2] - 2026-05-11
 
