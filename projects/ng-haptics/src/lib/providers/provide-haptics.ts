@@ -27,12 +27,6 @@ export function provideHaptics(config: HapticsConfig = {}): EnvironmentProviders
         if (resolvedConfig.enabled === false) {
           return new NoopAdapter();
         }
-        if (
-          resolvedConfig.respectReducedMotion &&
-          window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-        ) {
-          return new NoopAdapter();
-        }
         if ('vibrate' in navigator) {
           return new WebVibrationAdapter();
         }
