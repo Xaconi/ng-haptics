@@ -16,7 +16,10 @@
 - 🌐 **SSR-safe** — works with Angular Universal, no `window`/`navigator` on server
 - 📦 **Zero dependencies** — pure Web Vibration API, no Capacitor, no Ionic
 - 🎯 **Declarative** — directives and service for every use case
-- ♿ **Accessible** — respects `prefers-reduced-motion` by default
+- 🔍 **Support detection** — runtime `HapticsService.support()` exposes platform/browser/method info
+- 🛡️ **Cooldown protection** — built-in throttling prevents accidental vibration spam
+- 🪶 **Accessible** — respects `prefers-reduced-motion` by default
+- 🧪 **Debug mode** — log clear haptics events when enabled
 - 🔬 **Testable** — adapter pattern makes testing trivial
 - 🪶 **Tiny** — <10kb gzip, tree-shakeable, side-effect free
 
@@ -95,6 +98,19 @@ await haptics.sequence([
 
 // Check support
 haptics.isSupported; // boolean
+
+// Runtime support details
+const support = haptics.support();
+console.log(support);
+
+// Example support result
+// {
+//   supported: true,
+//   platform: 'ios',
+//   method: 'ios-switch',
+//   browser: 'chrome',
+//   reducedMotion: false,
+// }
 ```
 
 ### Directives
@@ -112,8 +128,19 @@ interface HapticsConfig {
   enabled?: boolean;              // default: true
   respectReducedMotion?: boolean; // default: true
   debug?: boolean;                // default: false
+  cooldown?: number;              // ms, default: 0
 }
 ```
+
+```ts
+provideHaptics({
+  debug: !environment.production,
+  cooldown: 40,
+  respectReducedMotion: true,
+});
+```
+
+`debug` enables console logging in development, `cooldown` prevents accidental vibration spam, and `respectReducedMotion` keeps haptics silent for users who opt into reduced motion.
 
 ## Browser Support
 
@@ -123,6 +150,8 @@ interface HapticsConfig {
 | iOS Safari / Chrome | ✅ Full (WebKit switch trick) |
 | Desktop browsers | — Silent no-op (no haptic hardware) |
 | SSR / Node.js | — Silent no-op |
+
+> Note: `ng-haptics` reports runtime support with `HapticsService.support()`, and it respects `prefers-reduced-motion` by default unless disabled via `provideHaptics({ respectReducedMotion: false })`.
 
 ## Architecture
 
