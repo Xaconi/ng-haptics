@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `HapticsSupport` interface with platform, browser, method, and reduced motion detection
 - Cooldown / Throttling support to prevent accidental vibration spam
 - Debug Mode with consistent debug logs and support debug output
+- Dynamic Reduced Motion support with live `prefers-reduced-motion` handling
 
 ### Updated
 
