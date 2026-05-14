@@ -41,3 +41,43 @@ html {
   transform: scale(0.97);
   transition: transform 80ms ease;
 }
+
+body.screen-shake,
+html.screen-shake {
+  animation: screen-shake 240ms ease-in-out;
+  overflow: hidden;
+}
+
+@keyframes screen-shake {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  15% {
+    transform: translate3d(-6px, 3px, 0);
+  }
+
+  30% {
+    transform: translate3d(6px, -4px, 0);
+  }
+
+  45% {
+    transform: translate3d(-5px, 4px, 0);
+  }
+
+  60% {
+    transform: translate3d(5px, -3px, 0);
+  }
+
+  75% {
+    transform: translate3d(-3px, 2px, 0);
+  }
+
+  90% {
+    transform: translate3d(2px, -2px, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { HeroComponent } from './sections/hero/hero.component';
 import { QuickExamplesComponent } from './sections/quick-examples/quick-examples.component';
 import { InstallationComponent } from './sections/installation/installation.component';
@@ -48,4 +48,38 @@ import { CustomPatternComponent } from './sections/custom-pattern/custom-pattern
     </div>
   `,
 })
-export class AppComponent { }
+export class AppComponent {
+  private shaking = false;
+  private readonly hapticSelector = 'button.haptic-btn, button[ngHaptic], button[ngHapticTap], [ngHaptic], [ngHapticTap]';
+
+  @HostListener('document:pointerdown', ['$event'])
+  onDocumentPointerDown(event: Event): void {
+    const target = event.target as HTMLElement | null;
+    if (!target) {
+      return;
+    }
+
+    const hapticButton = target.closest(this.hapticSelector);
+    if (!hapticButton) {
+      return;
+    }
+
+    this.triggerScreenShake();
+  }
+
+  private triggerScreenShake(): void {
+    const root = document.body;
+    if (this.shaking) {
+      root.classList.remove('screen-shake');
+      void root.offsetWidth;
+    }
+
+    this.shaking = true;
+    root.classList.add('screen-shake');
+
+    window.setTimeout(() => {
+      root.classList.remove('screen-shake');
+      this.shaking = false;
+    }, 260);
+  }
+}
