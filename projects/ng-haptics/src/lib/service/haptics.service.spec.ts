@@ -2,6 +2,7 @@
 
 import { describe, it, expect, vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
+import { PLATFORM_ID } from '@angular/core';
 import { HapticsService } from './haptics.service';
 import { HAPTICS_ADAPTER, HAPTICS_CONFIG } from '../tokens/haptics.tokens';
 import { NoopAdapter } from '../adapters/noop.adapter';
@@ -74,5 +75,25 @@ describe('HapticsService', () => {
     service.light();
     expect(consoleSpy).toHaveBeenCalledWith('[ng-haptics]', 'light');
     consoleSpy.mockRestore();
+  });
+
+  it('support() returns unsupported in SSR context', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        HapticsService,
+        { provide: HAPTICS_ADAPTER, useValue: new NoopAdapter() },
+        { provide: HAPTICS_CONFIG, useValue: {} },
+        { provide: PLATFORM_ID, useValue: 'server' }, // Mock SSR
+      ],
+    });
+    const service = TestBed.inject(HapticsService);
+    const result = service.support();
+    expect(result).toEqual({
+      supported: false,
+      platform: 'unknown',
+      method: 'unsupported',
+      browser: 'unknown',
+      reducedMotion: false,
+    });
   });
 });

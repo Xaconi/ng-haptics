@@ -1,14 +1,72 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HAPTICS_ADAPTER, HAPTICS_CONFIG } from '../tokens/haptics.tokens';
-import { HapticPreset, HapticPulse, HapticsConfig, SequenceEntry } from '../types/haptics.types';
+import { HapticPreset, HapticPulse, HapticsConfig, HapticsSupport, SequenceEntry } from '../types/haptics.types';
 
 @Injectable()
 export class HapticsService {
   private readonly adapter = inject(HAPTICS_ADAPTER);
   private readonly config: HapticsConfig = inject(HAPTICS_CONFIG);
+  private readonly platformId = inject(PLATFORM_ID);
 
   get isSupported(): boolean {
     return this.adapter.isSupported();
+  }
+
+  support(): HapticsSupport {
+    if (!isPlatformBrowser(this.platformId)) {
+      return {
+        supported: false,
+        platform: 'unknown',
+        method: 'unsupported',
+        browser: 'unknown',
+        reducedMotion: false,
+      };
+    }
+
+    const userAgent = navigator.userAgent.toLowerCase();
+    const userAgentData = (navigator as any).userAgentData;
+
+    // Platform detection
+    let platform: HapticsSupport['platform'] = 'unknown';
+    if (userAgent.includes('android')) {
+      platform = 'android';
+    } else if (userAgent.includes('iphone') || userAgent.includes('ipad') || userAgent.includes('ipod')) {
+      platform = 'ios';
+    } else if (userAgent.includes('mac') || userAgent.includes('windows') || userAgent.includes('linux')) {
+      platform = 'desktop';
+    }
+
+    // Browser detection
+    let browser: HapticsSupport['browser'] = 'unknown';
+    if (userAgent.includes('chrome') && !userAgent.includes('edg')) {
+      browser = 'chrome';
+    } else if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
+      browser = 'safari';
+    } else if (userAgent.includes('firefox')) {
+      browser = 'firefox';
+    } else if (userAgent.includes('edg')) {
+      browser = 'edge';
+    }
+
+    // Method detection
+    let method: HapticsSupport['method'] = 'unsupported';
+    if ('vibrate' in navigator) {
+      method = 'vibration-api';
+    } else {
+      method = 'noop';
+    }
+
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    const supported = this.isSupported;
+
+    return {
+      supported,
+      platform,
+      method,
+      browser,
+      reducedMotion,
+    };
   }
 
   light(): void {
