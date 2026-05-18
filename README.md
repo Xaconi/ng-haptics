@@ -62,8 +62,12 @@ export class MyComponent {
 **3. Or use directives:**
 
 ```html
-<button [ngHaptic]="'success'">Save</button>
-<button [ngHapticTap]="'medium'">Submit</button>
+<button ngHapticClick="success">Save</button>
+<button ngHapticTap="medium">Submit</button>
+<form ngHapticForm successPreset="success" errorPreset="warning" novalidate>
+  <input name="email" ngModel required placeholder="you@example.com" />
+  <button type="submit">Submit</button>
+</form>
 ```
 
 ## API Reference
@@ -117,9 +121,10 @@ console.log(support);
 
 | Directive | Event | Example |
 |-----------|-------|---------|
-| `[ngHaptic]` | `click` | `<button [ngHaptic]="'success'">` |
-| `[ngHapticTap]` | `pointerdown` | `<button [ngHapticTap]="'medium'">` |
+| `[ngHapticClick]` | `click` | `<button ngHapticClick="success">` |
+| `[ngHapticTap]` | `pointerdown` | `<button ngHapticTap="medium">` |
 | `[ngHapticHover]` | `pointerenter` | `<div [ngHapticHover]="'light'">` |
+| `ngHapticForm` | `submit` | `<form ngHapticForm successPreset="success" errorPreset="warning">` |
 
 ### provideHaptics(config?)
 
