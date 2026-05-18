@@ -9,6 +9,7 @@ import { DeviceSupportComponent } from './sections/device-support/device-support
 import { BrowserSupportComponent } from './sections/browser-support/browser-support.component';
 import { WhyLibraryComponent } from './sections/why-library/why-library.component';
 import { CustomPatternComponent } from './sections/custom-pattern/custom-pattern.component';
+import { FormDemoComponent } from './sections/form-demo/form-demo.component';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ import { CustomPatternComponent } from './sections/custom-pattern/custom-pattern
     QuickExamplesComponent,
     InstallationComponent,
     BasicUsageComponent,
+    FormDemoComponent,
     DirectivesDemoComponent,
     ConfigurationComponent,
     DeviceSupportComponent,
@@ -33,6 +35,7 @@ import { CustomPatternComponent } from './sections/custom-pattern/custom-pattern
         <app-installation />
         <app-basic-usage />
         <app-directives-demo />
+        <app-form-demo />
         <app-custom-pattern />
         <app-configuration />
         <app-device-support />
