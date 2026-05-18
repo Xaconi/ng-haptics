@@ -6,6 +6,7 @@ export type { HapticsConfig, HapticPreset, HapticPulse, HapticsSupport, Sequence
 export { NgHapticDirective } from './lib/directives/haptic.directive';
 export { NgHapticTapDirective } from './lib/directives/haptic-tap.directive';
 export { NgHapticHoverDirective } from './lib/directives/haptic-hover.directive';
+export { NgHapticClickDirective } from './lib/directives/haptic-click.directive';
 
 export type { HapticsAdapter } from './lib/adapters/haptics-adapter';
 export { WebVibrationAdapter } from './lib/adapters/web-vibration.adapter';

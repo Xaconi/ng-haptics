@@ -1,7 +1,7 @@
 import {
   Component, inject
 } from '@angular/core';
-import { HapticsService, HapticPreset } from 'ng-haptics';
+import { HapticsService, HapticPreset, NgHapticClickDirective } from 'ng-haptics';
 import { SectionHeaderComponent } from '../../components/section-header/section-header.component';
 
 interface HapticButton {
@@ -14,7 +14,7 @@ interface HapticButton {
 @Component({
   selector: 'app-quick-examples',
   standalone: true,
-  imports: [SectionHeaderComponent],
+  imports: [SectionHeaderComponent, NgHapticClickDirective],
   template: `
     <section id="examples">
       <app-section-header
@@ -33,6 +33,15 @@ interface HapticButton {
             <span class="text-xs text-zinc-500 font-mono">haptics.{{ btn.preset }}()</span>
           </button>
         }
+      </div>
+
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-2">Declarative Click Directive</h3>
+        <div class="flex gap-3">
+          <button ngHapticClick class="haptic-btn glass rounded-xl p-3">Default (light)</button>
+          <button ngHapticClick="success" class="haptic-btn glass rounded-xl p-3">Success</button>
+          <button ngHapticClick="error" class="haptic-btn glass rounded-xl p-3">Error</button>
+        </div>
       </div>
     </section>
   `,
