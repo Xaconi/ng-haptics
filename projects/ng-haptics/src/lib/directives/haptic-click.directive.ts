@@ -17,6 +17,7 @@ export class NgHapticClickDirective {
     @HostListener('pointerup', ['$event'])
     @HostListener('click', ['$event'])
     @HostListener('touchend', ['$event'])
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onActivate(_: Event): void {
         this.haptics[this.preset]();
     }
