@@ -7,6 +7,7 @@ export { NgHapticDirective } from './lib/directives/haptic.directive';
 export { NgHapticTapDirective } from './lib/directives/haptic-tap.directive';
 export { NgHapticHoverDirective } from './lib/directives/haptic-hover.directive';
 export { NgHapticClickDirective } from './lib/directives/haptic-click.directive';
+export { NgHapticFormDirective } from './lib/directives/haptic-form.directive';
 
 export type { HapticsAdapter } from './lib/adapters/haptics-adapter';
 export { WebVibrationAdapter } from './lib/adapters/web-vibration.adapter';
