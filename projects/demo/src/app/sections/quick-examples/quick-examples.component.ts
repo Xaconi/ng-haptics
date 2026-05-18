@@ -1,7 +1,8 @@
 import {
   Component, inject
 } from '@angular/core';
-import { HapticsService, HapticPreset, NgHapticClickDirective } from 'ng-haptics';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HapticsService, HapticPreset, NgHapticClickDirective, NgHapticFormDirective } from 'ng-haptics';
 import { SectionHeaderComponent } from '../../components/section-header/section-header.component';
 
 interface HapticButton {
@@ -14,7 +15,7 @@ interface HapticButton {
 @Component({
   selector: 'app-quick-examples',
   standalone: true,
-  imports: [SectionHeaderComponent, NgHapticClickDirective],
+  imports: [SectionHeaderComponent, NgHapticClickDirective, NgHapticFormDirective, ReactiveFormsModule],
   template: `
     <section id="examples">
       <app-section-header
@@ -43,11 +44,48 @@ interface HapticButton {
           <button ngHapticClick="error" class="haptic-btn glass rounded-xl p-3">Error</button>
         </div>
       </div>
+
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-2">Forms Feedback</h3>
+        <form
+          [formGroup]="form"
+          ngHapticForm
+          successPreset="success"
+          errorPreset="error"
+          novalidate
+          class="grid gap-3 max-w-md"
+        >
+          <label class="grid gap-2 text-sm">
+            <span class="text-zinc-300">Email</span>
+            <input
+              formControlName="email"
+              type="email"
+              placeholder="you@example.com"
+              class="input-field"
+            />
+          </label>
+
+          <button type="submit" class="haptic-btn glass rounded-xl px-5 py-3">Submit</button>
+
+          @if(form.invalid) {
+            <p class="text-xs text-rose-300">
+              Fill in a valid email to trigger success haptics.
+            </p>
+          }
+        </form>
+      </div>
     </section>
   `,
 })
 export class QuickExamplesComponent {
   private readonly haptics = inject(HapticsService);
+
+  readonly form = new FormGroup({
+    email: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.email],
+    }),
+  });
 
   readonly buttons: HapticButton[] = [
     { preset: 'light', label: 'Light', description: '🫧', color: 'zinc' },
