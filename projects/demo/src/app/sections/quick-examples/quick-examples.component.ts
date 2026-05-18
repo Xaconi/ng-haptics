@@ -1,6 +1,7 @@
 import {
   Component, inject
 } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HapticsService, HapticPreset } from 'ng-haptics';
 import { SectionHeaderComponent } from '../../components/section-header/section-header.component';
 
@@ -14,7 +15,7 @@ interface HapticButton {
 @Component({
   selector: 'app-quick-examples',
   standalone: true,
-  imports: [SectionHeaderComponent],
+  imports: [SectionHeaderComponent, ReactiveFormsModule],
   template: `
     <section id="examples">
       <app-section-header
@@ -34,6 +35,7 @@ interface HapticButton {
           </button>
         }
       </div>
+
     </section>
   `,
 })
